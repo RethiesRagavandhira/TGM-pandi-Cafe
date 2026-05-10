@@ -199,14 +199,29 @@ const MenuManager = () => {
               
               <div>
                 <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem' }}>Category</label>
-                <input className="input" name="category" required value={formData.category} onChange={handleInputChange} list="categories" />
-                <datalist id="categories">
-                  <option value="Coffee" />
-                  <option value="Tea" />
-                  <option value="Snacks" />
-                  <option value="Desserts" />
-                  <option value="Cold Drinks" />
-                </datalist>
+                <select 
+                  className="input" 
+                  name="category" 
+                  required 
+                  value={formData.category} 
+                  onChange={handleInputChange}
+                  style={{ appearance: 'auto' }}
+                >
+                  <option value="" disabled>Select a category</option>
+                  {/* Current categories in use + defaults */}
+                  {[...new Set(['Hot Drinks', 'Milk Shake', 'Mojito', 'Chat Items', 'Scopes', 'Juice', 'Cooling', 'Starter (Veg)', 'Rice & Noodle', 'Starter (Non-Veg)', 'Desserts', 'Savories', ...items.map(i => i.category)])].sort().map(cat => (
+                    <option key={cat} value={cat}>{cat}</option>
+                  ))}
+                  <option value="Other">Other</option>
+                </select>
+                {formData.category === 'Other' && (
+                  <input 
+                    className="input" 
+                    style={{ marginTop: '0.5rem' }} 
+                    placeholder="Type new category..."
+                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                  />
+                )}
               </div>
               
               <div style={{ display: 'flex', gap: '1rem' }}>

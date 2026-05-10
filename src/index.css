@@ -624,18 +624,13 @@ tr:hover td {
   }
 
   .stat-cards-grid > * { flex: 1 1 100%; }
-
+  
   /* Utilities */
   .mobile-hide { display: none !important; }
   .mobile-show { display: block !important; }
   .mobile-flex { display: flex !important; }
-
-  /* Modals on mobile */
-  .modal-container {
-    width: 95% !important;
-    max-width: none !important;
-    padding: 1.5rem !important;
-  }
+  .desktop-only { display: none !important; }
+  .mobile-only { display: block !important; }
 }
 
 @media (max-width: 480px) {
@@ -645,12 +640,24 @@ tr:hover td {
   .header { padding: 0 0.75rem; }
 }
 
+/* Display Utilities */
 .desktop-only { display: block; }
-.mobile-only { display: none; }
+.mobile-only  { display: none; }
+.tablet-only  { display: none; }
+.tablet-hide  { display: block; }
 
 @media (max-width: 768px) {
   .desktop-only { display: none !important; }
-  .mobile-only { display: block !important; }
+  .mobile-only  { display: block !important; }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .tablet-only { display: block !important; }
+  .tablet-hide { display: none !important; }
+  
+  /* Tablet-specific billing tweaks */
+  .billing-cart { flex: 0 0 280px; }
+  .stat-cards-grid > * { flex: 1 1 calc(50% - 0.75rem); }
 }
 
 /* Custom Scrollbar for horizontal scrolling containers */
