@@ -21,7 +21,7 @@ const MenuManager = () => {
     
     // Auto-refresh when other devices modify menu
     const handleUpdate = (data) => {
-      if (data.action.startsWith('menu_')) loadMenu();
+      if (data.table === 'menu') loadMenu();
     };
     socket.on('database_update', handleUpdate);
     return () => socket.off('database_update', handleUpdate);
@@ -78,7 +78,7 @@ const MenuManager = () => {
     if (window.confirm("Are you sure you want to delete this item?")) {
       try {
         await api.deleteMenuItem(id);
-        // loadMenu() will be triggered by socket
+        await loadMenu();
       } catch (err) {
         console.error("Error deleting item", err);
       }

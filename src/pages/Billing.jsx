@@ -95,7 +95,7 @@ const Billing = () => {
       })));
       navigate('/billing', { replace: true, state: {} });
     }
-    const onUpdate = (d) => { if (d.action.startsWith('menu_')) loadMenu(); };
+    const onUpdate = (d) => { if (d.table === 'menu') loadMenu(); };
     socket.on('database_update', onUpdate);
     return () => socket.off('database_update', onUpdate);
   }, [editBill, navigate]);

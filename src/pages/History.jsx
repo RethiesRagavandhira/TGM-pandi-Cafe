@@ -15,7 +15,7 @@ const History = () => {
     
     // Auto-refresh when bills change
     const handleUpdate = (data) => {
-      if (data.action.startsWith('bill_')) loadBills();
+      if (data.table === 'bills' || data.table === 'bill_items') loadBills();
     };
     socket.on('database_update', handleUpdate);
     return () => socket.off('database_update', handleUpdate);
@@ -40,6 +40,7 @@ const History = () => {
     if (window.confirm("Are you sure you want to delete this bill? This will restore the stock counts for these items.")) {
       try {
         await api.deleteBill(id);
+        await loadBills();
       } catch (err) {
         console.error("Error deleting bill", err);
       }
