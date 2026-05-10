@@ -1,0 +1,667 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500;600;700&display=swap');
+
+/* =========================================================================
+   DESIGN TOKENS — Warm Cafe Theme
+   ========================================================================= */
+:root {
+  /* Brand Colors */
+  --primary:        #f97316;
+  --primary-dark:   #ea6400;
+  --primary-light:  #fed7aa;
+  --primary-glow:   rgba(249,115,22,0.2);
+
+  --accent:         #f59e0b;
+  --accent-dark:    #d97706;
+
+  --success:        #10b981;
+  --success-bg:     rgba(16,185,129,0.1);
+  --danger:         #ef4444;
+  --danger-bg:      rgba(239,68,68,0.1);
+  --warning:        #f59e0b;
+  --warning-bg:     rgba(245,158,11,0.1);
+
+  /* Light Theme — clean white + subtle warm tint */
+  --bg:             #f5f5f5;
+  --bg-surface:     #ffffff;
+  --bg-surface2:    #fafafa;
+  --bg-hover:       #fff4ed;
+  --bg-glass:       rgba(255,255,255,0.85);
+
+  /* Text */
+  --text:           #1a1a1a;
+  --text-muted:     #6b7280;
+  --text-light:     #9ca3af;
+
+  /* Borders */
+  --border:         #e5e7eb;
+  --border-strong:  #d1d5db;
+
+  /* Shadows */
+  --shadow-sm:  0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md:  0 4px 12px rgba(0,0,0,0.1);
+  --shadow-lg:  0 10px 30px rgba(249,115,22,0.15), 0 4px 10px rgba(0,0,0,0.08);
+
+  /* Radii */
+  --r-sm:  6px;
+  --r-md:  12px;
+  --r-lg:  16px;
+  --r-xl:  22px;
+  --r-full: 9999px;
+
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Aliases */
+  --primary-color:    var(--primary);
+  --primary-hover:    var(--primary-dark);
+  --success-color:    var(--success);
+  --danger-color:     var(--danger);
+  --warning-color:    var(--warning);
+  --bg-color:         var(--bg);
+  --bg-surface-hover: var(--bg-hover);
+  --text-primary:     var(--text);
+  --text-secondary:   var(--text-muted);
+  --border-color:     var(--border);
+  --radius-md:        var(--r-md);
+  --radius-lg:        var(--r-lg);
+}
+
+[data-theme="dark"] {
+  --bg:             #1a1008;
+  --bg-surface:     #241709;
+  --bg-surface2:    #2e1e0e;
+  --bg-hover:       #3a2610;
+  --bg-glass:       rgba(36,23,9,0.8);
+
+  --text:           #fdf6ee;
+  --text-muted:     #c49a6a;
+  --text-light:     #8a6040;
+
+  --border:         #3e2a14;
+  --border-strong:  #5a3e20;
+
+  --shadow-sm:  0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md:  0 4px 12px rgba(0,0,0,0.4), 0 0 0 1px rgba(249,115,22,0.1);
+  --shadow-lg:  0 10px 30px rgba(0,0,0,0.5), 0 0 0 1px rgba(249,115,22,0.15);
+
+  /* Aliases */
+  --bg-color:        var(--bg);
+  --bg-surface-hover:var(--bg-hover);
+  --text-primary:    var(--text);
+  --text-secondary:  var(--text-muted);
+  --border-color:    var(--border);
+}
+
+/* =========================================================================
+   RESET & BASE
+   ========================================================================= */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: 'Inter', 'Outfit', sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* =========================================================================
+   LAYOUT
+   ========================================================================= */
+.app-container {
+  display: flex;
+  height: 100dvh;
+  width: 100vw;
+}
+
+/* =========================================================================
+   SIDEBAR
+   ========================================================================= */
+.sidebar {
+  width: 240px;
+  background: var(--bg-surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 1rem;
+  transition: all 0.3s var(--ease);
+  position: relative;
+  z-index: 10;
+}
+
+/* subtle warm gradient strip on left */
+.sidebar::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--primary), var(--accent));
+  border-radius: 0 2px 2px 0;
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin-bottom: 2rem;
+  color: var(--primary);
+  justify-content: center;
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  flex: 1;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 1rem;
+  border-radius: var(--r-md);
+  color: var(--text-muted);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all 0.2s var(--ease);
+  cursor: pointer;
+  position: relative;
+}
+
+.nav-item:hover {
+  background: var(--bg-hover);
+  color: var(--primary);
+  transform: translateX(3px);
+}
+
+.nav-item.active {
+  background: linear-gradient(135deg, var(--primary), var(--accent-dark));
+  color: #fff;
+  box-shadow: var(--shadow-md);
+  font-weight: 600;
+}
+
+.nav-item.active:hover {
+  background: linear-gradient(135deg, var(--primary-dark), var(--accent-dark));
+  transform: translateX(0);
+}
+
+/* =========================================================================
+   MAIN CONTENT
+   ========================================================================= */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+/* =========================================================================
+   HEADER
+   ========================================================================= */
+.header {
+  height: 66px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  backdrop-filter: blur(8px);
+  position: relative;
+  z-index: 5;
+}
+
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary), var(--accent), transparent);
+  opacity: 0.6;
+}
+
+.header-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: var(--r-md);
+  transition: all 0.2s var(--ease);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-btn:hover {
+  background: var(--bg-hover);
+  color: var(--primary);
+  transform: scale(1.08);
+}
+
+.role-badge {
+  background: linear-gradient(135deg, var(--primary), var(--accent-dark));
+  color: #fff;
+  padding: 0.3rem 0.9rem;
+  border-radius: var(--r-full);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  box-shadow: var(--shadow-sm);
+}
+
+/* =========================================================================
+   PAGE CONTAINER
+   ========================================================================= */
+.page-container {
+  padding: 1.25rem 1.5rem;
+  flex: 1;
+  overflow: hidden;          /* billing layout fills this exactly */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Non-billing pages wrap content in this scrollable div */
+.page-scroll {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* =========================================================================
+   CARDS
+   ========================================================================= */
+.card {
+  background: var(--bg-surface);
+  border-radius: var(--r-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  transition: box-shadow 0.25s var(--ease), transform 0.2s var(--ease);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* =========================================================================
+   BUTTONS
+   ========================================================================= */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.25rem;
+  border-radius: var(--r-md);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s var(--ease);
+  font-size: 0.875rem;
+  letter-spacing: 0.01em;
+}
+
+.btn:active { transform: scale(0.97); }
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent-dark) 100%);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(249,115,22,0.4);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--accent-dark) 100%);
+  box-shadow: 0 6px 20px rgba(249,115,22,0.55);
+  transform: translateY(-1px);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  box-shadow: none;
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(239,68,68,0.35);
+}
+
+.btn-danger:hover {
+  box-shadow: 0 6px 18px rgba(239,68,68,0.5);
+  transform: translateY(-1px);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1.5px solid var(--border-strong);
+  color: var(--text-muted);
+}
+
+.btn-outline:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--primary-glow);
+}
+
+/* =========================================================================
+   INPUTS
+   ========================================================================= */
+.input {
+  width: 100%;
+  padding: 0.65rem 1rem;
+  border-radius: var(--r-md);
+  border: 1.5px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
+.input::placeholder {
+  color: var(--text-light);
+}
+
+/* =========================================================================
+   TABLES
+   ========================================================================= */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 0.9rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+th {
+  background: var(--bg-surface2);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+tr:last-child td { border-bottom: none; }
+
+tr:hover td {
+  background: var(--bg-hover);
+}
+
+/* =========================================================================
+   SCROLLBAR
+   ========================================================================= */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--primary-light); }
+
+/* =========================================================================
+   ANIMATIONS
+   ========================================================================= */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(24px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 var(--primary-glow); }
+  70%  { box-shadow: 0 0 0 8px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s var(--ease) forwards;
+}
+
+/* =========================================================================
+   BILLING LAYOUT
+   ========================================================================= */
+.billing-layout {
+  display: flex;
+  gap: 1.25rem;
+  flex: 1;               /* fill the flex page-container */
+  overflow: hidden;
+  min-height: 0;         /* allows flex children to shrink */
+}
+
+.billing-main {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.billing-cart {
+  flex: 0 0 330px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-radius: var(--r-xl) !important;
+  overflow: hidden;
+  border: 1.5px solid var(--border-strong) !important;
+}
+
+/* =========================================================================
+   STAT CARDS
+   ========================================================================= */
+.stat-cards-grid {
+  display: flex;
+  gap: 1.25rem;
+}
+
+/* =========================================================================
+   BADGE / CHIP
+   ========================================================================= */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--r-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.badge-orange {
+  background: rgba(249,115,22,0.12);
+  color: var(--primary);
+  border: 1px solid rgba(249,115,22,0.25);
+}
+
+.badge-green {
+  background: var(--success-bg);
+  color: var(--success);
+  border: 1px solid rgba(16,185,129,0.25);
+}
+
+.badge-red {
+  background: var(--danger-bg);
+  color: var(--danger);
+  border: 1px solid rgba(239,68,68,0.25);
+}
+
+/* =========================================================================
+   RESPONSIVE
+   ========================================================================= */
+@media (max-width: 1024px) {
+  .stat-cards-grid { flex-wrap: wrap; }
+  .stat-cards-grid > * { flex: 1 1 calc(50% - 0.625rem); }
+  .billing-cart { flex: 0 0 300px; }
+}
+
+@media (max-width: 768px) {
+  .app-container { flex-direction: column-reverse; }
+
+  .main-content { flex: 1; overflow-y: hidden; }
+
+  .page-container { padding: 0.875rem; }
+
+  .header { height: 58px; padding: 0 1rem; }
+  .header-title { font-size: 1rem; }
+  .role-badge { display: none; }
+
+  /* Bottom nav */
+  .sidebar {
+    width: 100%;
+    height: 68px;
+    flex-direction: row;
+    padding: 0;
+    border-right: none;
+    border-top: 1px solid var(--border);
+    z-index: 1000;
+    background: var(--bg-surface);
+  }
+  .sidebar::before { display: none; }
+
+  .sidebar-logo { display: none; }
+
+  .nav-links {
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    margin: 0;
+    gap: 0;
+  }
+
+  .nav-item {
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 0.5rem;
+    font-size: 0.7rem;
+    border-radius: 0;
+    justify-content: center;
+    flex: 1;
+    transform: none !important;
+  }
+
+  .nav-item span { display: block; }
+
+  .nav-item.active {
+    background: transparent;
+    color: var(--primary);
+    box-shadow: none;
+    border-top: 2.5px solid var(--primary);
+  }
+
+  .nav-item.active:hover { background: transparent; }
+
+  .card { padding: 1rem; }
+
+  .billing-layout {
+    flex-direction: column;
+    height: 100%;
+    overflow-y: auto;
+    padding-bottom: 80px; /* space for bottom nav */
+  }
+  .billing-main { overflow: visible; flex: none; }
+  .billing-cart {
+    height: auto;
+    flex: none;
+    border-radius: var(--r-lg) !important;
+    margin-top: 1rem;
+  }
+
+  .stat-cards-grid > * { flex: 1 1 100%; }
+
+  /* Utilities */
+  .mobile-hide { display: none !important; }
+  .mobile-show { display: block !important; }
+  .mobile-flex { display: flex !important; }
+
+  /* Modals on mobile */
+  .modal-container {
+    width: 95% !important;
+    max-width: none !important;
+    padding: 1.5rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-item span { display: none; }
+  .nav-item { font-size: 0; }
+  .page-container { padding: 0.5rem; }
+  .header { padding: 0 0.75rem; }
+}
+
+.desktop-only { display: block; }
+.mobile-only { display: none; }
+
+@media (max-width: 768px) {
+  .desktop-only { display: none !important; }
+  .mobile-only { display: block !important; }
+}
+
+/* Custom Scrollbar for horizontal scrolling containers */
+.scroll-x {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  gap: 0.5rem;
+  padding-bottom: 4px;
+}
+.scroll-x::-webkit-scrollbar { height: 4px; }
+
+/* Print handled via popup window in Billing.jsx — no CSS needed here */
+
