@@ -194,56 +194,63 @@ const Billing = () => {
     <>
       <div className="animate-fade-in billing-layout" style={{ position: 'relative' }}>
 
-        {/* ── MOBILE TOGGLE ────────────────────────────── */}
+        {/* ── MOBILE TOGGLE (Sticky Top) ────────────────── */}
         <div className="mobile-flex" style={{
           display: 'none',
-          position: 'fixed',
-          bottom: '85px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          background: 'var(--bg-surface)',
-          padding: '0.4rem',
-          borderRadius: '99px',
-          boxShadow: 'var(--shadow-lg)',
+          position: 'sticky',
+          top: '-1px',
+          background: 'var(--bg)',
+          padding: '0.75rem 0',
           zIndex: 100,
-          border: '1px solid var(--border)',
-          gap: '0.25rem'
+          justifyContent: 'center',
+          borderBottom: '1px solid var(--border)',
+          marginBottom: '0.5rem'
         }}>
-          <button
-            onClick={() => setMobileView('menu')}
-            style={{
-              padding: '0.5rem 1.25rem',
-              borderRadius: '99px',
-              border: 'none',
-              background: mobileView === 'menu' ? 'var(--primary)' : 'transparent',
-              color: mobileView === 'menu' ? '#fff' : 'var(--text-muted)',
-              fontWeight: 700,
-              fontSize: '0.85rem',
-              cursor: 'pointer',
-              transition: 'all 0.2s'
-            }}
-          >
-            Menu
-          </button>
-          <button
-            onClick={() => setMobileView('cart')}
-            style={{
-              padding: '0.5rem 1.25rem',
-              borderRadius: '99px',
-              border: 'none',
-              background: mobileView === 'cart' ? 'var(--primary)' : 'transparent',
-              color: mobileView === 'cart' ? '#fff' : 'var(--text-muted)',
-              fontWeight: 700,
-              fontSize: '0.85rem',
-              cursor: 'pointer',
-              transition: 'all 0.2s',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.4rem'
-            }}
-          >
-            Cart {cart.length > 0 && <span style={{ background: mobileView === 'cart' ? '#fff' : 'var(--primary)', color: mobileView === 'cart' ? 'var(--primary)' : '#fff', padding: '0 5px', borderRadius: '4px', fontSize: '0.7rem' }}>{cart.length}</span>}
-          </button>
+          <div style={{
+            background: 'var(--bg-surface)',
+            padding: '0.3rem',
+            borderRadius: '99px',
+            display: 'flex',
+            gap: '0.2rem',
+            border: '1px solid var(--border)',
+            boxShadow: 'var(--shadow-sm)'
+          }}>
+            <button
+              onClick={() => setMobileView('menu')}
+              style={{
+                padding: '0.5rem 1.5rem',
+                borderRadius: '99px',
+                border: 'none',
+                background: mobileView === 'menu' ? 'var(--primary)' : 'transparent',
+                color: mobileView === 'menu' ? '#fff' : 'var(--text-muted)',
+                fontWeight: 700,
+                fontSize: '0.85rem',
+                cursor: 'pointer',
+                transition: 'all 0.2s'
+              }}
+            >
+              Menu
+            </button>
+            <button
+              onClick={() => setMobileView('cart')}
+              style={{
+                padding: '0.5rem 1.5rem',
+                borderRadius: '99px',
+                border: 'none',
+                background: mobileView === 'cart' ? 'var(--primary)' : 'transparent',
+                color: mobileView === 'cart' ? '#fff' : 'var(--text-muted)',
+                fontWeight: 700,
+                fontSize: '0.85rem',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.4rem'
+              }}
+            >
+              Cart {cart.length > 0 && <span style={{ background: mobileView === 'cart' ? '#fff' : 'var(--primary)', color: mobileView === 'cart' ? 'var(--primary)' : '#fff', padding: '0 5px', borderRadius: '4px', fontSize: '0.7rem' }}>{cart.length}</span>}
+            </button>
+          </div>
         </div>
 
         {/* ── LEFT: Menu ───────────────────────────────── */}

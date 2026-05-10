@@ -611,16 +611,16 @@ tr:hover td {
 
   .billing-layout {
     flex-direction: column;
-    height: 100%;
-    overflow-y: auto;
-    padding-bottom: 80px; /* space for bottom nav */
+    height: auto;
+    overflow-y: visible;
+    padding-bottom: 2rem;
   }
-  .billing-main { overflow: visible; flex: none; }
+  .billing-main { overflow: visible; flex: none; width: 100%; }
   .billing-cart {
     height: auto;
     flex: none;
+    width: 100%;
     border-radius: var(--r-lg) !important;
-    margin-top: 1rem;
   }
 
   .stat-cards-grid > * { flex: 1 1 100%; }
