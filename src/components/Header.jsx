@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Moon, Sun, Bell, Wifi } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
+import { api, socket } from '../api';
 
 const pageInfo = {
   '/':        { title: 'Dashboard',              emoji: '📊' },
