@@ -13,9 +13,9 @@ const Sidebar = () => {
   return (
     <aside className="sidebar">
       {/* Logo */}
-      <div className="sidebar-logo desktop-only">
+      <div className="sidebar-logo desktop-only tablet-hide">
         <img
-          src="./Bakery.jpeg"
+          src="/logo.jpg"
           alt="TGM Cafe"
           style={{
             width: '100%',
@@ -28,7 +28,7 @@ const Sidebar = () => {
       </div>
 
       {/* Label */}
-      <div className="desktop-only" style={{
+      <div className="desktop-only tablet-hide" style={{
         textAlign: 'center',
         marginBottom: '1.5rem',
         marginTop: '-0.5rem',
@@ -66,7 +66,7 @@ const Sidebar = () => {
       </nav>
 
       {/* Footer */}
-      <div className="desktop-only" style={{
+      <div className="desktop-only tablet-hide" style={{
         marginTop: 'auto',
         paddingTop: '1rem',
         borderTop: '1px solid var(--border)',
