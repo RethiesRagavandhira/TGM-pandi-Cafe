@@ -2,6 +2,19 @@ import { createClient } from '@supabase/supabase-js';
 import fs from 'fs';
 import path from 'path';
 
+const normalizeSupabaseValue = (value) => {
+  if (!value) return value;
+
+  const trimmed = String(value).trim();
+  const withoutPrefix = trimmed.replace(/^(VITE_SUPABASE_(?:ANON|PUBLISHABLE)_KEY)\s*=\s*/, '');
+
+  if ((withoutPrefix.startsWith('"') && withoutPrefix.endsWith('"')) || (withoutPrefix.startsWith("'") && withoutPrefix.endsWith("'"))) {
+    return withoutPrefix.slice(1, -1).trim();
+  }
+
+  return withoutPrefix;
+};
+
 // Read .env file manually
 const envPath = path.resolve('.env');
 const envContent = fs.readFileSync(envPath, 'utf-8');
@@ -20,7 +33,7 @@ envContent.split('\n').forEach(line => {
 });
 
 const supabaseUrl = env.VITE_SUPABASE_URL;
-const supabaseAnonKey = env.VITE_SUPABASE_ANON_KEY || env.VITE_SUPABASE_PUBLISHABLE_KEY;
+const supabaseAnonKey = normalizeSupabaseValue(env.VITE_SUPABASE_ANON_KEY || env.VITE_SUPABASE_PUBLISHABLE_KEY);
 
 if (!supabaseUrl || !supabaseAnonKey) {
   console.error('Supabase URL or Anon Key is missing in .env file');
