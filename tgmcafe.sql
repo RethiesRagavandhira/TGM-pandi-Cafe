@@ -1,15 +1,75 @@
--- MASSIVE MENU SEEDING FOR TGM CAFE
--- Copy and paste this into Supabase SQL Editor
+-- TGM CAFE DATABASE SETUP FOR SUPABASE
+-- Copy and paste this script into the Supabase SQL Editor.
+-- This script creates the required tables, disables RLS for easy local POS access, and seeds the default menu.
 
--- 1. Ensure security is off
+-- =========================================================================
+-- 1. Table Creation (Clean slate or safe creation)
+-- =========================================================================
+
+-- Optional: Uncomment the following lines if you want to completely reset the tables
+-- DROP TABLE IF EXISTS public.purchases CASCADE;
+-- DROP TABLE IF EXISTS public.bill_items CASCADE;
+-- DROP TABLE IF EXISTS public.bills CASCADE;
+-- DROP TABLE IF EXISTS public.menu CASCADE;
+
+-- Menu Table
+CREATE TABLE IF NOT EXISTS public.menu (
+    id bigint primary key generated always as identity,
+    name text not null,
+    category text not null,
+    price double precision not null,
+    stock_count integer not null default 0
+);
+
+-- Bills Table
+CREATE TABLE IF NOT EXISTS public.bills (
+    id bigint primary key generated always as identity,
+    bill_number text not null unique,
+    date_time timestamp with time zone not null,
+    subtotal double precision not null,
+    tax double precision not null default 0,
+    total double precision not null,
+    payment_method text not null
+);
+
+-- Bill Items Table
+CREATE TABLE IF NOT EXISTS public.bill_items (
+    id bigint primary key generated always as identity,
+    bill_id bigint references public.bills(id) on delete cascade not null,
+    item_id bigint references public.menu(id) on delete set null,
+    item_name text not null,
+    quantity integer not null,
+    price double precision not null,
+    total double precision not null
+);
+
+-- Purchases Table
+CREATE TABLE IF NOT EXISTS public.purchases (
+    id bigint primary key generated always as identity,
+    date text not null, -- stored as 'YYYY-MM-DD'
+    description text not null,
+    quantity double precision not null,
+    price double precision not null,
+    total double precision not null,
+    category text not null
+);
+
+-- =========================================================================
+-- 2. Security Setup (Disabling Row Level Security for POS app direct access)
+-- =========================================================================
 ALTER TABLE public.menu DISABLE ROW LEVEL SECURITY;
 ALTER TABLE public.bills DISABLE ROW LEVEL SECURITY;
 ALTER TABLE public.bill_items DISABLE ROW LEVEL SECURITY;
+ALTER TABLE public.purchases DISABLE ROW LEVEL SECURITY;
 
--- 2. Clear current menu (Optional: uncomment if you want to start fresh)
+-- =========================================================================
+-- 3. Clear existing menu items (Optional: uncomment to start fresh)
+-- =========================================================================
 -- DELETE FROM public.menu;
 
--- 3. Insert Comprehensive Menu
+-- =========================================================================
+-- 4. Seed Menu Items
+-- =========================================================================
 INSERT INTO public.menu (name, category, price, stock_count) VALUES
 -- Hot Drinks
 ('Tea', 'Hot Drinks', 15, 1000),
@@ -65,4 +125,5 @@ INSERT INTO public.menu (name, category, price, stock_count) VALUES
 ('Murukku', 'Savories', 30, 1000),
 ('Kara Boondi', 'Savories', 25, 1000),
 ('Mixture', 'Savories', 35, 1000),
-('Pakoda', 'Savories', 40, 1000);
+('Pakoda', 'Savories', 40, 1000),
+('rithiessmilk ','savories', 100, 10000000); -- Placeholder for future items
