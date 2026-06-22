@@ -5,7 +5,7 @@
 -- =========================================================================
 -- 1. Table Creation (Clean slate or safe creation)
 -- =========================================================================
-
+--ddjd
 -- Optional: Uncomment the following lines if you want to completely reset the tables
 -- DROP TABLE IF EXISTS public.purchases CASCADE;
 -- DROP TABLE IF EXISTS public.bill_items CASCADE;
