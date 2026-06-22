@@ -146,7 +146,7 @@ async function seed() {
   }
 
   console.log(`Found ${existing ? existing.length : 0} existing items.`);
-  
+
   if (existing && existing.length > 0) {
     console.log('Menu already seeded. Skipping insert.');
     return;
