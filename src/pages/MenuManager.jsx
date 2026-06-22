@@ -8,6 +8,7 @@ const MenuManager = () => {
   const [search, setSearch] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState('');
   
   const [formData, setFormData] = useState({
     name: '',
@@ -71,6 +72,10 @@ const MenuManager = () => {
       price: item.price,
       stock_count: item.stock_count
     });
+    
+    const defaultCategories = ['Hot Drinks', 'Milk Shake', 'Mojito', 'Chat Items', 'Scopes', 'Juice', 'Cooling', 'Starter (Veg)', 'Rice & Noodle', 'Starter (Non-Veg)', 'Desserts', 'Savories'];
+    const exists = defaultCategories.includes(item.category) || items.some(i => i.category === item.category);
+    setSelectedCategory(exists ? item.category : 'Other');
     setIsModalOpen(true);
   };
 
@@ -88,6 +93,7 @@ const MenuManager = () => {
   const openNewItemModal = () => {
     setEditingItem(null);
     setFormData({ name: '', category: '', price: '', stock_count: '' });
+    setSelectedCategory('');
     setIsModalOpen(true);
   };
 
@@ -203,8 +209,16 @@ const MenuManager = () => {
                   className="input" 
                   name="category" 
                   required 
-                  value={formData.category} 
-                  onChange={handleInputChange}
+                  value={selectedCategory} 
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setSelectedCategory(val);
+                    if (val === 'Other') {
+                      setFormData({ ...formData, category: '' });
+                    } else {
+                      handleInputChange(e);
+                    }
+                  }}
                   style={{ appearance: 'auto' }}
                 >
                   <option value="" disabled>Select a category</option>
@@ -214,12 +228,14 @@ const MenuManager = () => {
                   ))}
                   <option value="Other">Other</option>
                 </select>
-                {formData.category === 'Other' && (
+                {selectedCategory === 'Other' && (
                   <input 
                     className="input" 
                     style={{ marginTop: '0.5rem' }} 
                     placeholder="Type new category..."
+                    value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                    autoFocus
                   />
                 )}
               </div>

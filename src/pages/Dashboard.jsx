@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { IndianRupee, Receipt, TrendingUp, AlertTriangle, Package } from 'lucide-react';
+import { IndianRupee, Receipt, TrendingUp, AlertTriangle, Package, ShoppingBag, TrendingDown } from 'lucide-react';
 import { api, socket } from '../api';
 
 const Dashboard = () => {
@@ -8,7 +8,8 @@ const Dashboard = () => {
     totalSalesToday: 0,
     totalItemsSold: 0,
     mostSoldItem: 'N/A',
-    lowStockCount: 0
+    lowStockCount: 0,
+    totalPurchasesToday: 0
   });
 
   useEffect(() => {
@@ -27,12 +28,17 @@ const Dashboard = () => {
     }
   };
 
+  const netProfit = stats.totalSalesToday - (stats.totalPurchasesToday || 0);
+
   const statCards = [
     { title: "Today's Sales", value: `₹${stats.totalSalesToday.toFixed(2)}`, icon: <IndianRupee size={24} />, color: 'var(--success-color)' },
+    { title: "Today's Purchases", value: `₹${(stats.totalPurchasesToday || 0).toFixed(2)}`, icon: <ShoppingBag size={24} />, color: 'var(--danger-color)' },
+    { title: "Net Profit", value: `₹${netProfit.toFixed(2)}`, icon: netProfit >= 0 ? <TrendingUp size={24} /> : <TrendingDown size={24} />, color: netProfit >= 0 ? 'var(--success-color)' : 'var(--danger-color)' },
     { title: "Total Bills", value: stats.totalBillsToday, icon: <Receipt size={24} />, color: 'var(--primary-color)' },
     { title: "Items Sold", value: stats.totalItemsSold, icon: <Package size={24} />, color: 'var(--warning-color)' },
     { title: "Top Item", value: stats.mostSoldItem || 'N/A', icon: <TrendingUp size={24} />, color: '#8b5cf6' },
   ];
+
 
   return (
     <div className="page-scroll">

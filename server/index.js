@@ -117,6 +117,48 @@ app.get('/api/stats', async (req, res) => {
   }
 });
 
+// --- PURCHASES API ---
+app.get('/api/purchases', async (req, res) => {
+  try {
+    const purchases = await db.getPurchases();
+    res.json(purchases);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/purchases', async (req, res) => {
+  try {
+    const result = await db.addPurchaseItem(req.body);
+    broadcastUpdate('purchase_added');
+    res.json({ success: true, id: result.id });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.put('/api/purchases/:id', async (req, res) => {
+  try {
+    const item = { ...req.body, id: req.params.id };
+    await db.updatePurchaseItem(item);
+    broadcastUpdate('purchase_updated');
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.delete('/api/purchases/:id', async (req, res) => {
+  try {
+    await db.deletePurchaseItem(req.params.id);
+    broadcastUpdate('purchase_deleted');
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
 const PORT = 5000;
 httpServer.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on http://0.0.0.0:${PORT}`);

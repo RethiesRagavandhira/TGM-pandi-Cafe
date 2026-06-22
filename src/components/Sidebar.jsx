@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Receipt, Utensils, History, Coffee } from 'lucide-react';
+import { LayoutDashboard, Receipt, Utensils, History, Coffee, ShoppingBag } from 'lucide-react';
 
 const Sidebar = () => {
   const navItems = [
@@ -8,7 +8,9 @@ const Sidebar = () => {
     { name: 'Billing',         path: '/billing', icon: <Receipt size={19} /> },
     { name: 'Menu Management', path: '/menu',    icon: <Utensils size={19} /> },
     { name: 'Sales History',   path: '/history', icon: <History size={19} /> },
+    { name: 'Purchases',       path: '/purchases', icon: <ShoppingBag size={19} /> },
   ];
+
 
   return (
     <aside className="sidebar">

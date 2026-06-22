@@ -84,3 +84,21 @@ ipcMain.handle('db:deleteBill', async (event, id) => {
 ipcMain.handle('db:updateBill', async (event, billData) => {
   return await db.updateBill(billData);
 });
+
+// Purchases IPC Handlers
+ipcMain.handle('db:getPurchases', async () => {
+  return await db.getPurchases();
+});
+
+ipcMain.handle('db:addPurchaseItem', async (event, item) => {
+  return await db.addPurchaseItem(item);
+});
+
+ipcMain.handle('db:updatePurchaseItem', async (event, item) => {
+  return await db.updatePurchaseItem(item);
+});
+
+ipcMain.handle('db:deletePurchaseItem', async (event, id) => {
+  return await db.deletePurchaseItem(id);
+});
+

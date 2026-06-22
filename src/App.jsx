@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard';
 import Billing from './pages/Billing';
 import MenuManager from './pages/MenuManager';
 import History from './pages/History';
+import Purchases from './pages/Purchases';
 
 function App() {
   return (
@@ -19,11 +20,13 @@ function App() {
             <Route path="/billing" element={<Billing />} />
             <Route path="/menu" element={<MenuManager />} />
             <Route path="/history" element={<History />} />
+            <Route path="/purchases" element={<Purchases />} />
           </Routes>
         </div>
       </div>
     </div>
   );
 }
+
 
 export default App;

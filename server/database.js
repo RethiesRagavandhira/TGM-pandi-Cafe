@@ -56,6 +56,17 @@ function initDb() {
       total REAL NOT NULL,
       FOREIGN KEY (bill_id) REFERENCES bills(id)
     )`);
+
+    // Purchases Table
+    db.run(`CREATE TABLE IF NOT EXISTS purchases (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      date TEXT NOT NULL,
+      description TEXT NOT NULL,
+      quantity REAL NOT NULL,
+      price REAL NOT NULL,
+      total REAL NOT NULL,
+      category TEXT NOT NULL
+    )`);
   });
 }
 
@@ -189,12 +200,15 @@ export const getDashboardStats = async () => {
 
   const lowStockItems = await getQuery(`SELECT count(*) as count FROM menu WHERE stock_count < 10`);
 
+  const totalPurchasesRow = await getSingleQuery(`SELECT SUM(total) as sum FROM purchases WHERE date = ?`, [today]);
+
   return {
     totalBillsToday: totalBillsRow.count || 0,
     totalSalesToday: totalSalesRow.sum || 0,
     totalItemsSold: totalItemsSoldRow.sum || 0,
     mostSoldItem: mostSoldRow ? mostSoldRow.item_name : 'N/A',
-    lowStockCount: lowStockItems[0] ? lowStockItems[0].count : 0
+    lowStockCount: lowStockItems[0] ? lowStockItems[0].count : 0,
+    totalPurchasesToday: totalPurchasesRow ? (totalPurchasesRow.sum || 0) : 0
   };
 };
 
@@ -260,4 +274,28 @@ export const updateBill = async (billData) => {
       }
     });
   });
+};
+
+// --- PURCHASES OPERATIONS ---
+
+export const getPurchases = async () => {
+  return await getQuery(`SELECT * FROM purchases ORDER BY date DESC, id DESC`);
+};
+
+export const addPurchaseItem = async (item) => {
+  return await runQuery(
+    `INSERT INTO purchases (date, description, quantity, price, total, category) VALUES (?, ?, ?, ?, ?, ?)`,
+    [item.date, item.description, item.quantity, item.price, item.quantity * item.price, item.category]
+  );
+};
+
+export const updatePurchaseItem = async (item) => {
+  return await runQuery(
+    `UPDATE purchases SET date = ?, description = ?, quantity = ?, price = ?, total = ?, category = ? WHERE id = ?`,
+    [item.date, item.description, item.quantity, item.price, item.quantity * item.price, item.category, item.id]
+  );
+};
+
+export const deletePurchaseItem = async (id) => {
+  return await runQuery(`DELETE FROM purchases WHERE id = ?`, [id]);
 };

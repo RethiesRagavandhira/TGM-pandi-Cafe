@@ -7,7 +7,9 @@ const pageInfo = {
   '/billing': { title: 'Point of Sale (Billing)', emoji: '🧾' },
   '/menu':    { title: 'Menu Management',         emoji: '🍽️' },
   '/history': { title: 'Sales History',           emoji: '📋' },
+  '/purchases': { title: 'Purchase Details',      emoji: '🛍️' },
 };
+
 
 const Header = () => {
   const [theme, setTheme]           = useState('light');
