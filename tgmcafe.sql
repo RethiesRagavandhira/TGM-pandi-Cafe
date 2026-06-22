@@ -55,12 +55,46 @@ CREATE TABLE IF NOT EXISTS public.purchases (
 );
 
 -- =========================================================================
--- 2. Security Setup (Disabling Row Level Security for POS app direct access)
+-- 2. Security Setup (RLS enabled with public POS policies)
 -- =========================================================================
-ALTER TABLE public.menu DISABLE ROW LEVEL SECURITY;
-ALTER TABLE public.bills DISABLE ROW LEVEL SECURITY;
-ALTER TABLE public.bill_items DISABLE ROW LEVEL SECURITY;
-ALTER TABLE public.purchases DISABLE ROW LEVEL SECURITY;
+-- Keep RLS enabled and allow anon/authenticated access for this POS app.
+-- Note: This makes the data publicly writable with your publishable key.
+ALTER TABLE public.menu ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.bills ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.bill_items ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.purchases ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS menu_public_all ON public.menu;
+CREATE POLICY menu_public_all
+ON public.menu
+FOR ALL
+TO anon, authenticated
+USING (true)
+WITH CHECK (true);
+
+DROP POLICY IF EXISTS bills_public_all ON public.bills;
+CREATE POLICY bills_public_all
+ON public.bills
+FOR ALL
+TO anon, authenticated
+USING (true)
+WITH CHECK (true);
+
+DROP POLICY IF EXISTS bill_items_public_all ON public.bill_items;
+CREATE POLICY bill_items_public_all
+ON public.bill_items
+FOR ALL
+TO anon, authenticated
+USING (true)
+WITH CHECK (true);
+
+DROP POLICY IF EXISTS purchases_public_all ON public.purchases;
+CREATE POLICY purchases_public_all
+ON public.purchases
+FOR ALL
+TO anon, authenticated
+USING (true)
+WITH CHECK (true);
 
 -- =========================================================================
 -- 3. Clear existing menu items (Optional: uncomment to start fresh)
